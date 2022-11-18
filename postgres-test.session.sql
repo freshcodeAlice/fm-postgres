@@ -13,12 +13,13 @@ CREATE TABLE users(
     height numeric(3, 2)
 );
 
+INSERT INTO users VALUES ('Test', 'Testovich',  NULL, 'male',  NULL, '1990-01-20',  NULL, 2.10);
 
-/*
-char(5):'1234567' -> error, '12' -> '12   '
-varchar(5): '1234567' -> error, '12' -> '12'
+INSERT INTO users VALUES 
+    ('Test1', ' ', 'mail', 'female', true, '1990-03-20', 30, 2.10),
+    (' ', 'rewer', ' ', 'male', true, '1990-01-20', 15, 2.10),
+    ('John', 'Doe', 'mail', 'male', true, '1990-01-20', 35, 2.10),
+    (' ', ' ', 'mail', 'male', true, '1990-01-20', 35, 2.10);
 
-text -> max 1GB
 
-
-*/
+INSERT INTO users VALUES (NULL, NULL,  NULL, NULL,  NULL, NULL,  NULL, NULL);
