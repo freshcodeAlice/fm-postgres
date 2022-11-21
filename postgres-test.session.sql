@@ -22,3 +22,29 @@ INSERT INTO users VALUES
     ('Krok', 'Step', 'mail', 'male', true, '1990-01-20', 35, 2.10);
 
 INSERT INTO users VALUES ('Spiderman', 'Parker', 'spi@mail', 'male', false, '2022-11-22', NULL, 2.10);
+
+
+/*    */
+
+DROP TABLE messages;
+
+
+CREATE TABLE messages(
+    id serial PRIMARY KEY,
+    body text NOT NULL CHECK (body != ''),
+    author varchar(256) NOT NULL CHECK (author != ''),
+    created_at timestamp DEFAULT current_timestamp,
+    is_read boolean DEFAULT false
+);
+
+INSERT INTO messages VALUES ('Hello text', 'Me');
+
+
+INSERT INTO messages (author, body) VALUES 
+('Me', 'Hello again'),
+('Me', 'And again'),
+('Me', 'And again');
+
+INSERT INTO messages VALUES (
+    2, 'Text', 'author'
+);
