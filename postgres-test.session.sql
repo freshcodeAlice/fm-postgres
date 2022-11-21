@@ -24,7 +24,7 @@ INSERT INTO users VALUES
 INSERT INTO users VALUES ('Spiderman', 'Parker', 'spi@mail', 'male', false, '2022-11-22', NULL, 2.10);
 
 
-/*    */
+/*  primary key  */
 
 DROP TABLE messages;
 
@@ -48,3 +48,21 @@ INSERT INTO messages (author, body) VALUES
 INSERT INTO messages VALUES (
     2, 'Text', 'author'
 );
+
+
+/*   primary key on two column  */
+
+CREATE TABLE a(
+    b int,
+    c int,
+    CONSTRAINT "unique_pair" PRIMARY KEY (b,c)
+);
+
+INSERT INTO a VALUES 
+(1,1),
+(1,2),
+(1,3), 
+(2,2), 
+(2,3);
+
+INSERT INTO a VALUES (2,2);
