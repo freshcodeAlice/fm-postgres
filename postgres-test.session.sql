@@ -15,6 +15,7 @@ CREATE TABLE users(
 
 INSERT INTO users VALUES ('Test', 'Testovich', 'lol', 'male', false, '1990-01-20',  NULL, 2.10);
 
+
 INSERT INTO users VALUES 
     ('Test1', 'Test2', 'mail', 'female', true, '1990-03-20', 30, 2.10),
     ('Alex', 'rewer', 'mail', 'male', true, '1990-01-20', 15, 2.10),
@@ -23,6 +24,8 @@ INSERT INTO users VALUES
 
 INSERT INTO users VALUES ('Spiderman', 'Parker', 'spi@mail', 'male', false, '2022-11-22', NULL, 2.10);
 
+ALTER TABLE users
+ADD COLUMN id serial PRIMARY KEY;
 
 /*  primary key  */
 
@@ -139,3 +142,21 @@ ADD CONSTRAINT "quantity_more_zero" CHECK (quantity >= 0);
 ALTER TABLE books
 ADD CONSTRAINT "author_name_unique" CHECK (author != '' AND name != '') UNIQUE (author, name);
 
+
+/*   Relations  */
+
+DROP TABLE orders;
+
+CREATE TABLE orders(
+    id serial PRIMARY KEY,
+    created_at timestamp NOT NULL DEFAULT current_timestamp,
+    customer_id int REFERENCES users(id)
+);
+
+
+CREATE TABLE orders_to_products(
+    order_id int REFERENCES orders(id),
+    product_id int REFERENCES products(id),
+    quantity int,
+    PRIMARY KEY(order_id, product_id)
+);
