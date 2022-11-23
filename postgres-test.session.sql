@@ -239,19 +239,25 @@ CREATE TABLE contents(
     created_at timestamp DEFAULT current_timestamp
 );
 
+DROP TABLE reactions;
 
 CREATE TABLE reactions (
-    content_id int REFERENCES contents(id),
+    content_id int REFERENCES contents(id) ON DELETE CASCADE,
     user_id int REFERENCES users(id),
     isLiked boolean
 );
 
+
+---
+
 INSERT INTO contents (name, author_id) VALUES 
-('funny dogs', 2);
+('cats', 2);
+
+DELETE FROM contents WHERE id = 2;
 
 
 INSERT INTO reactions VALUES (
-    1, 1, false
+    2, 5, true
 );
 
 
@@ -260,11 +266,15 @@ INSERT INTO reactions VALUES (
 
 ---/* 1:1 */---
 
+DROP TABLE coaches;
+
 CREATE TABLE coaches(
     id serial PRIMARY KEY,
     name varchar(256) NOT NULL
 );
 --- team_id int REFERENCES teams(id)
+
+DROP TABLE teams;
 
 CREATE TABLE teams(
     id serial PRIMARY KEY,
@@ -275,3 +285,6 @@ CREATE TABLE teams(
 
 ALTER TABLE coaches
 ADD COLUMN team_id int REFERENCES teams(id);
+
+ALTER TABLE coaches
+DROP COLUMN team_id;
