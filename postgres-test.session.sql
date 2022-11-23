@@ -17,10 +17,10 @@ INSERT INTO users VALUES ('Test', 'Testovich', 'lol', 'male', false, '1990-01-20
 
 
 INSERT INTO users VALUES 
-    ('Test1', 'Test2', 'mail', 'female', true, '1990-03-20', 30, 2.10),
-    ('Alex', 'rewer', 'mail', 'male', true, '1990-01-20', 15, 2.10),
-    ('John', 'Doe', 'mail', 'male', true, '1990-01-20', 35, 2.10),
-    ('Krok', 'Step', 'mail', 'male', true, '1990-01-20', 35, 2.10);
+    ('Test1', 'Test2', 'mail@mail', 'female', true, '1990-03-20', 30, 2.10),
+    ('Alex', 'rewer', 'mail1@mail', 'male', true, '1990-01-20', 15, 2.10),
+    ('John', 'Doe', 'mail3@mail', 'male', true, '1990-01-20', 35, 2.10),
+    ('Krok', 'Step', 'mail4@mail', 'male', true, '1990-01-20', 35, 2.10);
 
 INSERT INTO users VALUES ('Spiderman', 'Parker', 'spi@mail', 'male', false, '2022-11-22', NULL, 2.10);
 
@@ -177,6 +177,9 @@ CREATE TABLE chats(
     created_at timestamp DEFAULT current_timestamp
 );
 
+INSERT INTO chats (name, owner_id) VALUES 
+('superchat', 1);
+
 CREATE TABLE chats_to_users(
     chat_id int REFERENCES chats(id),
     user_id int REFERENCES users(id),
@@ -184,16 +187,27 @@ CREATE TABLE chats_to_users(
     PRIMARY KEY(chat_id, user_id)
 );
 
+INSERT INTO chats_to_users (chat_id, user_id) VALUES 
+(1, 5);
+
+DROP TABLE messages;
 
 CREATE TABLE messages(
     id serial PRIMARY KEY,
     body text NOT NULL CHECK (body != ''),
     created_at timestamp DEFAULT current_timestamp,
-    isRead boolean NOT NULL,
+    is_read boolean NOT NULL,
     author_id int,
     chat_id int,
-    FOREIGN KEY (author_id, chat_id) REFERENCES chats_to_users (chat_id, user_id)
-)
+    FOREIGN KEY (chat_id, author_id) REFERENCES chats_to_users (chat_id, user_id)
+);
+
+
+INSERT INTO messages (body, is_read, chat_id, author_id) VALUES 
+('go for coffee?', false, 1, 5),
+('go', false, 1, 1),
+('im working', false, 1, 2),
+('go', false, 1, 1);
 
 
 /* 
