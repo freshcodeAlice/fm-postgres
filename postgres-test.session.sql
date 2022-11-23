@@ -253,3 +253,25 @@ INSERT INTO contents (name, author_id) VALUES
 INSERT INTO reactions VALUES (
     1, 1, false
 );
+
+
+
+
+
+---/* 1:1 */---
+
+CREATE TABLE coaches(
+    id serial PRIMARY KEY,
+    name varchar(256) NOT NULL
+);
+--- team_id int REFERENCES teams(id)
+
+CREATE TABLE teams(
+    id serial PRIMARY KEY,
+    name varchar(256),
+    coach_id int REFERENCES coaches(id)
+);
+
+
+ALTER TABLE coaches
+ADD COLUMN team_id int REFERENCES teams(id);
