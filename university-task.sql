@@ -111,3 +111,14 @@ INSERT INTO exams (student_id, subject_id, grade) VALUES
 (2, 1, 50),
 (3, 3, 20),
 (4, 3, 100);
+
+
+--------
+
+UPDATE exams SET grade = 67 WHERE student_id = 2;
+
+-----
+
+
+INSERT INTO students (first_name, last_name, group_id) VALUES 
+('Hermany', 'Grandger', 1) RETURNING id;
