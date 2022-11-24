@@ -1,5 +1,5 @@
 const { Client } = require('pg');
-const { mapUsers } = require('./.vscode/utils');
+const { mapUsers } = require('./utils');
 const {configs} = require('./configs');
 const {getUsers} = require('./api/fetch');
 
