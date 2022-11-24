@@ -3,6 +3,7 @@ DROP TABLE users;
 
 
 CREATE TABLE users(
+    id serial PRIMARY KEY,
     first_name varchar(64) NOT NULL CONSTRAINT first_name_not_empty CHECK (first_name != ''),
     last_name varchar(64) NOT NULL CHECK (last_name != ''),
     email text NOT NULL CHECK (email != '') UNIQUE,
@@ -288,3 +289,8 @@ ADD COLUMN team_id int REFERENCES teams(id);
 
 ALTER TABLE coaches
 DROP COLUMN team_id;
+
+
+--- 
+
+DELETE FROM users WHERE id BETWEEN 6 AND 25;
