@@ -1,5 +1,6 @@
-const {User, client} = require('./model');
+const {User, Phone, Order, client} = require('./model');
 const {getUsers} = require('./api/fetch');
+const {generatePhones} = require('./utils');
 
 
 
@@ -8,10 +9,13 @@ const {getUsers} = require('./api/fetch');
 async function start(){
     await client.connect();
 
-    const userArray = await getUsers();
+    //  const userArray = await getUsers();
+    // const res = await User.bulkCreate(userArray);
+    const {rows: users} = await User.findAll();
+    // const phones = await Phone.bulkCreate(generatePhones());
+     const {rows: phones} = await Phone.findAll();
+    const orders = await Order.bulkCreate(users, phones);
 
-    const res = await User.bulkCreate(userArray);
-    console.log(res);
 
     await client.end();
 }

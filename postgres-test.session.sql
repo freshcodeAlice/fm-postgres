@@ -294,3 +294,13 @@ DROP COLUMN team_id;
 --- 
 
 DELETE FROM users WHERE id BETWEEN 6 AND 25;
+
+
+
+-------
+
+DELETE FROM users WHERE id > 5;
+
+DELETE FROM orders;
+
+DELETE FROM products;
