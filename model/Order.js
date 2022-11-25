@@ -4,19 +4,19 @@ class Order {
     static _client;
 
     static async bulkCreate(users, phones){
-        // const ordersValueString = users
-        //             .map(u => 
-        //                 new Array(_.random(1, 3, false))
-        //                 .fill(null)
-        //                 .map(()=> `(${u.id})`)
-        //                 .join(',')
-        //             ).join(',');
+        const ordersValueString = users
+                    .map(u => 
+                        new Array(_.random(1, 3, false))
+                        .fill(null)
+                        .map(()=> `(${u.id})`)
+                        .join(',')
+                    ).join(',');
 
-    // const {rows: orders} = await this._client.query(
-    //     `INSERT INTO orders (customer_id) VALUES ${ordersValueString} RETURNING id`
-    // );
+    const {rows: orders} = await this._client.query(
+        `INSERT INTO orders (customer_id) VALUES ${ordersValueString} RETURNING id`
+    );
 
-    const {rows: orders} = await this._client.query(`SELECT * FROM orders`);
+    // const {rows: orders} = await this._client.query(`SELECT * FROM orders`);
 
     const phonesToOrdersValueString = orders.map(
         o => {
