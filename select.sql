@@ -228,3 +228,21 @@ WHERE extract ('years' from age(birthday)) > 65;
 UPDATE users
 SET weight = 80
 WHERE extract('years' from age(birthday)) BETWEEN 40 AND 50;
+
+
+
+
+--------------------------------------
+
+
+SELECT *, extract('years' from age(birthday)) AS years FROM users
+WHERE extract('years' from age(birthday)) BETWEEN 20 AND 40;
+
+
+SELECT first_name AS "Ім'я", 
+last_name AS "Прізвище", 
+id AS "Особистий номер" 
+FROM users;
+
+SELECT * FROM chats_to_users AS ctu
+WHERE ctu.user_id = 1;
