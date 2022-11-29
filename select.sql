@@ -335,3 +335,96 @@ extract('day' from birthday)::integer)
 WHERE id BETWEEN 2 AND 5;
 
 */
+
+
+
+-----
+
+
+SELECT * FROM users
+WHERE extract('month' from birthday) = 9;
+
+
+
+-------Агрегатні функції---------------
+
+
+SELECT max(weight) FROM users;
+
+
+SELECT gender, avg(weight) FROM users
+GROUP BY gender;
+
+
+------ Середня вага юзерів, що народилися після 2000 року
+
+SELECT avg(weight)
+FROM users
+WHERE extract('years' from birthday) > 2000;
+
+
+----- Середня вага чоловіків, яким 27 років
+
+SELECT avg(weight)
+FROM users
+WHERE extract('years' from age(birthday)) = 27 AND gender = 'male';
+
+
+
+/*
+1. Середній вік всіх користувачів
+*/
+
+SELECT avg(extract('years' from age(birthday)))
+FROM users;
+
+
+/*
+2. Мінімальний та максимальний вік користувачів
+*/
+
+SELECT min(extract('years' from age(birthday))), max(extract('years' from age(birthday)))
+FROM users;
+
+
+/*
+3. Мінімальний та максимальний вік чоловіків і жінок окремо
+
+*/
+
+SELECT gender, min(extract('years' from age(birthday))), max(extract('years' from age(birthday)))
+FROM users
+GROUP BY gender;
+
+
+/*
+Порахувати кількість користувачів жіночого роду
+
+*/
+
+SELECT count(id)
+FROM users
+WHERE gender = 'female';
+
+
+SELECT gender, count(id)
+FROM users
+GROUP BY gender;
+
+
+/*
+Кількість користувачів, що народились після 1998 року
+*/
+SELECT count(id)
+FROM users
+WHERE extract('years' from birthday) > 1998;
+
+
+/*
+Кількість користувачів віком від 20 до 40
+
+*/
+
+SELECT count(id)
+FROM users
+WHERE extract('years' from age(birthday)) BETWEEN 20 AND 40;
