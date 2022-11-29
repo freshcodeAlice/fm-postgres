@@ -246,3 +246,11 @@ FROM users;
 
 SELECT * FROM chats_to_users AS ctu
 WHERE ctu.user_id = 1;
+
+
+-------//----Пагінація-------//-------------------
+
+
+SELECT * FROM users
+LIMIT 15
+OFFSET 30;
