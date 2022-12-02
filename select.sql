@@ -436,10 +436,10 @@ WHERE extract('years' from age(birthday)) BETWEEN 20 AND 40;
 
 CREATE TABLE a
 (v char(3),
-t int)
+t int);
 
 CREATE TABLE b
-(v char(3))
+(v char(3));
 
 drop table b
 
@@ -546,4 +546,201 @@ SELECT id FROM users
 EXCEPT
 SELECT customer_id FROM orders;
 
+
+-------- Зіставлення (сопоставление) ---------
+
+
+SELECT * FROM a, b
+WHERE A.v = B.v;
+
+SELECT A.v AS "id",
+        A.t AS "price",
+        B.v AS "phone_id"
+FROM A,B
+WHERE A.v = B.v;
+
+SELECT * 
+FROM A JOIN B 
+ON A.v = B.v;
+
+
+
+---- замовлення певного юзера
+--- id = 5
+
+
+SELECT * FROM users
+JOIN orders
+ON orders.customer_id = users.id
+WHERE users.id = 5;
+
+
+
+SELECT * FROM orders WHERE customer_id = 5;
+
+SELECT u.*, o.id AS "order_id"
+FROM users AS u 
+JOIN orders AS o
+ON o.customer_id = u.id
+WHERE u.id = 5;
+
+
+SELECT * 
+FROM products 
+JOIN orders_to_products
+ON products.id = orders_to_products.product_id
+WHERE products.brand = 'Samsung';
+
+
+SELECT count(*) 
+FROM products AS p
+JOIN orders_to_products AS otp
+ON p.id = otp.product_id
+WHERE p.brand = 'Samsung';
+
+
+SELECT p.brand, count(*) AS "quantity"
+FROM products AS p
+JOIN orders_to_products AS otp
+ON p.id = otp.product_id
+GROUP BY p.brand
+ORDER BY "quantity" DESC
+LIMIT 3;
+
+
+
+
+
+--- юзери і кількість їхніх замовлень
+
+SELECT count(*), u.* 
+FROM users AS u 
+JOIN orders AS o
+ON u.id = o.customer_id
+GROUP BY u.id;
+
+----- Юзери, які нічого не замовляли
+
+
+SELECT * 
+FROM users AS u
+LEFT JOIN orders AS O
+ON u.id = o.customer_id
+WHERE o.customer_id IS NULL;
+
+
+SELECT * 
+FROM users
+WHERE id IN (
+    SELECT id 
+    FROM users 
+    EXCEPT 
+    SELECT customer_id 
+    FROM orders);
+
+
+--------------- JOINS -------------
+
+--- INNER JOIN - внутрішнє співставлення
+SELECT *
+FROM users AS u 
+INNER JOIN orders AS o
+ON u.id = o.customer_id;
+
+
+
+--- LEFT JOIN
+SELECT * 
+FROM users AS u
+LEFT JOIN orders AS O
+ON u.id = o.customer_id
+ORDER BY u.id DESC;
+
+
+
+-------
+SELECT * 
+FROM A 
+LEFT JOIN b
+ON a.v = b.v;
+
+SELECT * 
+FROM a
+RIGHT JOIN b
+ON a.v = b.v;
+
+
+SELECT *
+FROM A
+FULL OUTER JOIN b
+ON a.v = b.v;
+
+
+
+---------
+
+
+INSERT INTO products (
+    brand,
+    model,
+    category,
+    price,
+    quantity
+  )
+VALUES (
+   'LG',
+   '10',
+   'phones',
+   200,
+   2
+  );
+
+
+
+  --- Телефон, який ніколи не купували
+
+SELECT * 
+FROM products AS p
+LEFT JOIN orders_to_products AS otp
+ON p.id = otp.product_id
+WHERE otp.product_id IS NULL;
+
+
+
+/*
+
+1. Повна вартість кожного замовлення.
+
+2. Кількість позицій в кожному замовленні.
+
+3. Знайти найпопулярніший товар.
+
+
+*/
+
+
+----3
+SELECT p.brand, p.model, p.id, sum(otp.quantity) 
+FROM products AS p
+JOIN orders_to_products AS otp
+ON p.id = otp.product_id
+GROUP BY p.id
+ORDER BY sum(otp.quantity) DESC
+LIMIT 1;
+
+
+
+---2
+SELECT order_id, count(*) 
+FROM orders_to_products AS otp
+GROUP BY order_id;
+
+
+
+---1
+SELECT otp.order_id, sum(p.price * otp.quantity)
+FROM orders_to_products AS otp
+JOIN products AS p
+ON otp.product_id = p.id
+GROUP BY otp.order_id;
 
