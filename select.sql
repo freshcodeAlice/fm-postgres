@@ -705,7 +705,13 @@ LEFT JOIN orders_to_products AS otp
 ON p.id = otp.product_id
 WHERE otp.product_id IS NULL;
 
-
+DELETE FROM products
+WHERE products.id IN (
+    SELECT id FROM products AS p
+    LEFT JOIN orders_to_products AS otp
+    ON p.id = otp.product_id
+    WHERE otp.product_id IS NULL
+) RETURNING *;
 
 /*
 
