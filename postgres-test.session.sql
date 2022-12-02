@@ -99,7 +99,7 @@ INSERT INTO products (brand, model, category, price) VALUES
 
 
 ALTER TABLE products
-ADD COLUMN quantity int CHECK (quantity > 0);
+ADD COLUMN quantity int CHECK (quantity >= 0);
 
 
 ALTER TABLE products
