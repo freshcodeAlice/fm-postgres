@@ -821,3 +821,23 @@ WHERE orders_with_cost.cost > (
     SELECT avg(orders_with_cost.cost)
     FROM orders_with_cost
   );
+
+
+
+---- Витягти всіх користувачів, в яких кількість замовлень вище середнього
+
+
+WITH orders_with_counts AS (
+  SELECT customer_id, count(*) AS order_count
+  FROM orders
+  GROUP BY customer_id
+)
+SELECT * FROM orders_with_counts
+JOIN users ON users.id = orders_with_counts.customer_id
+WHERE orders_with_counts.order_count > (
+    SELECT avg(orders_with_counts.order_count)
+    FROM orders_with_counts
+);
+
+
+--- Витягти користувачів та кількість телефонів, які вони замовляли (кількість замовлень * quantity)
