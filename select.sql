@@ -841,3 +841,9 @@ WHERE orders_with_counts.order_count > (
 
 
 --- Витягти користувачів та кількість телефонів, які вони замовляли (кількість замовлень * quantity)
+
+SELECT sum(quantity), u.first_name, u.last_name
+FROM orders_to_products AS otp
+JOIN orders ON orders.id = otp.order_id
+JOIN users AS u ON u.id = orders.customer_id
+GROUP BY u.id;
