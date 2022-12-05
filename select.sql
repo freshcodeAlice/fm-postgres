@@ -764,3 +764,60 @@ GROUP BY otp.order_id;
 
 
 */
+
+---1
+SELECT otp.order_id, sum(p.price * otp.quantity) AS cost
+FROM orders_to_products AS otp
+JOIN products AS p
+ON otp.product_id = p.id
+GROUP BY otp.order_id;
+
+
+SELECT avg(owc.cost)
+FROM (
+  SELECT otp.order_id, sum(p.price * otp.quantity) AS cost
+  FROM orders_to_products AS otp
+  JOIN products AS p
+  ON otp.product_id = p.id
+  GROUP BY otp.order_id
+  ) AS owc;
+
+SELECT owc.* 
+FROM (
+  SELECT otp.order_id, sum(p.price * otp.quantity) AS cost
+  FROM orders_to_products AS otp
+  JOIN products AS p
+  ON otp.product_id = p.id
+  GROUP BY otp.order_id
+  ) AS owc
+  WHERE owc.cost > (
+    SELECT avg(owc.cost)
+  FROM (
+  SELECT otp.order_id, sum(p.price * otp.quantity) AS cost
+  FROM orders_to_products AS otp
+  JOIN products AS p
+  ON otp.product_id = p.id
+  GROUP BY otp.order_id
+  );
+
+
+  /*
+
+WITH ..alias.. AS table
+SELECT ....
+
+  */
+
+  WITH orders_with_cost AS (
+  SELECT otp.order_id, sum(p.price * otp.quantity) AS cost
+  FROM orders_to_products AS otp
+  JOIN products AS p
+  ON otp.product_id = p.id
+  GROUP BY otp.order_id
+)
+SELECT orders_with_cost.*
+FROM orders_with_cost
+WHERE orders_with_cost.cost > (
+    SELECT avg(orders_with_cost.cost)
+    FROM orders_with_cost
+  );
