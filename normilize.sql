@@ -109,3 +109,43 @@ DROP COLUMN department_phone;
 ALTER TABLE employees 
 ADD FOREIGN KEY (department)
 REFERENCES departments(name);
+
+
+----------
+
+
+CREATE TABLE students(
+    id serial PRIMARY KEY,
+    name varchar(30));
+
+CREATE TABLE teachers(
+    id serial PRIMARY KEY,
+    name varchar(20),
+    subject varchar(300) REFERENCES subjects(name)  ------<----
+);
+
+CREATE TABLE students_to_teachers(
+    teacher_id int REFERENCES teachers(id),
+    student_id int REFERENCES students(id),
+    PRIMARY KEY (teacher_id, student_id)
+);
+
+INSERT INTO students_to_teachers VALUES
+(1,1, 'biology'),
+(1,2, 'biology'),
+(2,1, 'math'),
+(2,2, 'phisics'); ----- problem!
+
+
+CREATE TABLE subjects (
+    name varchar(300) PRIMARY KEY
+);
+
+
+------- Now:
+INSERT INTO students_to_teachers VALUES
+(1,1),
+(1,2),
+(2,1),
+(2,2);
+
