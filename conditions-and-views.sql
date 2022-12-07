@@ -167,3 +167,37 @@ INSERT INTO users (
     birthday
 ) VALUES
 ('Iron', 'Man', 'tonymail@com', 'male', true, '1990-08-09');
+
+
+
+
+-------------
+
+
+SELECT count(id)
+FROM products
+WHERE price > 3000;
+
+SELECT sum(
+    CASE WHEN
+    price > 3000 THEN 1
+    ELSE 0
+    END
+)
+FROM products;
+
+
+
+------COALESCE
+
+SELECT COALESCE(NULL, 12, 24) --- 12
+COALESCE(NULL, NULL, NULL) --- NULL
+
+/* Опис телефонів - якщо опису немає, вивести "Про цей товар нічого не відомо"  */
+
+UPDATE products
+SET description = 'Супер телефон з довгим описом'
+WHERE id BETWEEN 324 AND 350;
+
+SELECT id, brand, model, price, COALESCE(description, 'Про цей товар нічого не відомо')
+FROM products;
