@@ -260,7 +260,7 @@ CREATE TABLE orders(
     id serial PRIMARY KEY,
     product_id int REFERENCES products(id),
     quantity_plan int NOT NULL,
-    product_price decimal(10,2)
+    product_price decimal(10,2),
     contract_number int NOT NULL,
     contract_date date NOT NULL,
     manufacturer_id int REFERENCES manufacturers(id)
@@ -277,6 +277,5 @@ CREATE TABLE shipments(
 CREATE TABLE products_to_shipments(
     product_id REFERENCES products(id),
     shipment_id REFERENCES shipments(id),
-    product_quantity int NOT NULL,
-    -----PRIMARY KEY (product_id, shipment_id)
+    product_quantity int NOT NULL
 )   
