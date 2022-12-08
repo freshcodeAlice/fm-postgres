@@ -281,3 +281,33 @@ WHERE u.id = SOME (SELECT customer_id FROM orders);
 SELECT * FROM products AS p
 WHERE p.id != ALL 
     (SELECT product_id FROM orders_to_products);
+
+
+
+/*
+Знайти всі телефони, які купував юзер №23
+
+*/
+
+SELECT * 
+FROM products AS p
+WHERE p.id = ANY (
+            SELECT product_id FROM orders_to_products AS otp
+            WHERE otp.order_id = SOME (
+                            SELECT id FROM orders AS o
+                            WHERE customer_id = 2335
+                            )
+            );
+
+
+
+SELECT * FROM products AS p
+JOIN orders_to_products AS otp
+ON otp.product_id = p.id
+JOIN orders AS o
+ON otp.order_id = o.id
+WHERE o.customer_id = 2335;
+
+---------------
+
+
