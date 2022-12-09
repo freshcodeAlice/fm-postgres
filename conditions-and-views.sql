@@ -419,3 +419,58 @@ FROM users_with_total_amounts
 
 SELECT * FROM users_with_age_and_amounts
 WHERE age > 30;
+
+DROP VIEW users_with_age_and_amounts;
+DROP VIEW users_with_total_amounts;
+DROP VIEW users_with_orders_amount;
+
+DROP VIEW orders_with_price;
+
+-----------------
+
+/*  ENUM   */
+
+SELECT * FROM orders
+WHERE status = true;
+
+---- order status:
+-- true - виконано
+-- false - не виконано
+
+
+--- 'processing' - 'proccessing' -- 'prosesing'
+
+
+-- ('new', 'processing', 'shiped', 'done')
+
+CREATE TYPE order_status AS ENUM('new', 'processing', 'shiped', 'done');
+
+ALTER TABLE orders
+ALTER COLUMN status TYPE order_status;  ----- problem! impossible cast
+
+
+ALTER TABLE orders
+ALTER COLUMN status
+TYPE order_status
+USING (
+    CASE status
+    WHEN false THEN 'processing'
+    WHEN true THEN 'done'
+    ELSE 'new'
+    END
+)::order_status;
+
+
+INSERT INTO orders (customer_id, status) VALUES
+(2335, 'new');  ---ok!
+
+SELECT * FROM orders
+ORDER BY created_at DESC;
+
+
+INSERT INTO orders (customer_id, status) VALUES
+(2335, 'shiped');
+
+UPDATE orders
+SET status = 'shiped'
+WHERE id = 2543;
